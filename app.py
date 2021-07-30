@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -22,10 +22,33 @@ class Article(blog.Model):
 def first_page():
     return render_template("index.html")
 
+@app.route("/posts")
+def posts():
+    articles = Article.query.order_by(Article.date.desc()).all()
+    return render_template("posts.html", articles=articles)
 
-@app.route("/create_post")
+@app.route("/posts/<int:id>")
+def post_detail(id):
+    article = Article.query.get(id)
+    return render_template("post_detail.html", article=article)
+
+
+
+@app.route("/create_post", methods=['POST', 'GET'])
 def create_post():
-    return render_template("create_post.html")
+    if request.method == "POST":
+        title = request.form['title']
+        text = request.form['text']
+        article = Article(title=title, text=text)
+        try:
+            blog.session.add(article)
+            blog.session.commit()
+            return redirect('/')
+        except:
+            return "При добавлении ссанины произошла ошибка!"
+
+    if request.method == "GET":
+        return render_template("create_post.html")
 
 
 if __name__ == "__main__":
