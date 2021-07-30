@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Создайте свой пост
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Тут Артем Демченко добавляет статьи</h1>
+    <form method="post">
+        <input type="text" name="title" id="title" class="form-control"><br>
+        <textarea name="text" id="text" class="form-control"></textarea><br>
+        <input type="submit" class="btn btn-success" value="Создать!"><br>
+    </form>
+</div>
+{% endblock %}
