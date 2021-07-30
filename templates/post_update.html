@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Обновление поста
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Обновление ссанины</h1>
+    <form method="post">
+        <textarea type="text" name="title" id="title" class="form-control" placeholder="Название твоей ссанины">{{article.title}}</textarea><br>
+        <textarea name="text" id="text" class="form-control" placeholder="Текст твоей ссанины">{{article.text}}</textarea><br>
+        <input type="submit" class="btn btn-success" value="Внести изменения!"><br>
+    </form>
+</div>
+{% endblock %}

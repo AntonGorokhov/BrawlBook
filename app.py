@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.dp'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 blog = SQLAlchemy(app)
 
@@ -13,7 +13,6 @@ class Article(blog.Model):
     title = blog.Column(blog.String(200), nullable=False)
     text = blog.Column(blog.Text, nullable=False)
     date = blog.Column(blog.DateTime, default=datetime.utcnow)
-
     def __repr__(self):
         return 'Article <%r>' % self.id
 
@@ -34,6 +33,35 @@ def post_detail(id):
 
 
 
+
+@app.route("/posts/<int:id>/update", methods=['POST', 'GET'])
+def post_update(id):
+    article = Article.query.get(id)
+    if request.method == "POST":
+        try:
+            article.title = request.form['title']
+            article.text = request.form['text']
+            blog.session.commit()
+            return redirect('/posts')
+        except:
+            return "При обновлении ссанины произошла ошибка!"
+
+    if request.method == "GET":
+        article = Article.query.get(id)
+        return render_template("post_update.html", article=article)
+
+
+@app.route("/posts/<int:id>/delete")
+def post_delete(id):
+    article = Article.query.get_or_404(id)
+    try:
+        blog.session.delete(article)
+        blog.session.commit()
+        return redirect("/posts")
+    except:
+        return "Какое нахуй удаление?"
+
+
 @app.route("/create_post", methods=['POST', 'GET'])
 def create_post():
     if request.method == "POST":
@@ -43,7 +71,7 @@ def create_post():
         try:
             blog.session.add(article)
             blog.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return "При добавлении ссанины произошла ошибка!"
 

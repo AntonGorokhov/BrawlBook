@@ -10,7 +10,9 @@
     <h1>{{article.title}}</h1>
     <div class="alert alert-info">
         <p>{{article.text}}</p>
-        <a href="/posts" class="btn btn-warning">Вернуьтся назад</a>
+        <a href="/posts" class="btn btn-success">Вернуьтся назад</a>
+        <a href="/posts/{{article.id}}/update" class="btn btn-warning">Править ссанину</a>
+        <a href="/posts/{{article.id}}/delete" class="btn btn-danger">Удалить к хуям</a>
     </div>
 </div>
 {% endblock %}
