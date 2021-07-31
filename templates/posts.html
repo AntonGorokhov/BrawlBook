@@ -8,6 +8,14 @@
 {% block body %}
 <div class="container mt-5">
     <h1>Посты в BrawlBook</h1>
+
+    {% if sz == 0 %}
+        <div class="alert alert-info">
+            <h5>Тут пока что ничего нет...</h5>
+        </div>
+    <?php endif; ?>
+    {% endif %}
+
     {% for el in articles %}
     <div class="alert alert-info">
         <h2>{{el.title}}</h2>

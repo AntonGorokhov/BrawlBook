@@ -24,13 +24,12 @@ def first_page():
 @app.route("/posts")
 def posts():
     articles = Article.query.order_by(Article.date.desc()).all()
-    return render_template("posts.html", articles=articles)
+    return render_template("posts.html", articles=articles, sz=len(articles))
 
 @app.route("/posts/<int:id>")
 def post_detail(id):
     article = Article.query.get(id)
     return render_template("post_detail.html", article=article)
-
 
 
 
