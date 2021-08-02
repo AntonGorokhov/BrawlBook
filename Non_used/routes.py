@@ -1,30 +1,6 @@
-from flask import Flask, render_template, url_for, request, redirect
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-    def __repr__(self):
-        return 'Article <%r>' % self.id
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(30), nullable=False)
-    psw = db.Column(db.String(20), nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-    def __repr__(self):
-        return 'User <%r>' % self.id
+from website import app, db
+from flask import render_template, request, redirect
+from Non_used.modelsss import User, Article
 
 
 @app.route("/")
@@ -74,6 +50,7 @@ def post_delete(id):
         db.session.commit()
         return redirect("/posts")
     except:
+        db.session.rollback()
         return "Какое нахуй удаление?"
 
 
@@ -88,11 +65,35 @@ def create_post():
             db.session.commit()
             return redirect('/posts')
         except:
+            db.session.rollback()
             return "При добавлении ссанины произошла ошибка!"
 
     if request.method == "GET":
         return render_template("create_post.html")
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+@app.route("/registration", methods=['POST', 'GET'])
+def registration():
+    if request.method == "POST":
+        name = request.form['name']
+        if len(name) == 0:
+            return "Конченый ты опущенец, какие тебе катки, если ты даже зарегаться нормально не можешь!"
+        psw = request.form['psw']
+        user = User(name=name, psw=psw)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "Конченый ты опущенец, какие тебе катки, если ты даже зарегаться нормально не можешь!"
+
+
+    if request.method == "GET":
+        return render_template("signup.html")
+
+
+@app.route("/user/<int:id>/profile")
+def profile(id):
+    user = User.query.get(id)
+    return render_template("profile.html", user=user)

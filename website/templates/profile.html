@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <h1>{{user.name}}</h1>
+    <h1>Рейтинг : {{user.rating}}</h1>
+    <div>
+        <a href="/" class="btn btn-success">Вернуьтся назад</a>
+    </div>
+</div>
+{% endblock %}
