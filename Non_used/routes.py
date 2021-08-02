@@ -5,7 +5,7 @@ from Non_used.modelsss import User, Article
 
 @app.route("/")
 def first_page():
-    return render_template("index.html")
+    return render_template("home.html")
 
 
 @app.route("/about")
