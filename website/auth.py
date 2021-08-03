@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User
+from .models import User, Post
 from flask_login import login_user, logout_user, login_required, current_user
 
 auth = Blueprint('auth', __name__)
@@ -55,3 +55,17 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+@auth.route('/godmode', methods=['GET', 'POST'])
+@login_required
+def godmode():
+    if request.method == 'POST':
+        godmode_activation_code = request.form['godmode_activation_code']
+        if check_password_hash(generate_password_hash('123'), godmode_activation_code):
+            current_user.mode = 0
+            flash("Вы включили режим Бога. Поините! С большой силой приходит большая ответсвенность!", category='success')
+            return redirect(url_for('views.home'))
+        else:
+            flash("Вы включили режим Бога! Обоссытесь от счастья!", category='success')
+            return redirect(url_for('views.home'))
+    return render_template('godmode.html')

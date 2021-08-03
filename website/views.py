@@ -1,13 +1,12 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import db
-from .models import User
+from .models import User, Post
 
 views = Blueprint('views', __name__)
 
 
 @views.route("/")
-@login_required
 def home():
     return render_template("home.html", user=current_user)
 
@@ -15,4 +14,6 @@ def home():
 @views.route("/about")
 def about():
     return render_template("about.html", user=current_user)
+
+
 

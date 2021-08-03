@@ -13,14 +13,14 @@
         <div class="alert alert-info">
             <h5>Тут пока что ничего нет...</h5>
         </div>
-    <?php endif; ?>
     {% endif %}
 
     {% for el in articles %}
     <div class="alert alert-info">
         <h2>{{el.title}}</h2>
+        <p><b>Автор ссанья: {{el.author_name}}</b></p>
         <p><b>Дата ссанья: {{el.date.date()}}</b></p>
-        <a href="/posts/{{el.id}}" class="btn btn-warning">Посмотреть полностью</a>
+        <a href="/post/{{el.id}}" class="btn btn-warning">Посмотреть полностью</a>
     </div>
     {% endfor %}
 </div>
