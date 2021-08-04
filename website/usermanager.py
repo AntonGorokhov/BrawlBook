@@ -20,15 +20,18 @@ def godmode():
     if request.method == 'POST':
         godmode_activation_code = request.form['godmode_activation_code']
         if check_password_hash(generate_password_hash('123'), godmode_activation_code):
-            user = User.query.get(current_user.id)
-            user.mode = 0
-            db.session.commit()
-            flash("Вы включили режим Бога. Поините! С большой силой приходит большая ответсвенность!", category='success')
-            return redirect(url_for('views.home'))
+            if User.query.filter_by(mode=0).first():
+                flash("Отсоси, мамкин хакер. Хуй тебе, а не режим Бога", category='error')
+            else:
+                user = User.query.get(current_user.id)
+                user.mode = 0
+                db.session.commit()
+                flash("Вы включили режим Бога! Обоссытесь от счастья!", category='success')
+                return redirect(url_for('views.home'))
         else:
-            flash("Вы включили режим Бога! Обоссытесь от счастья!", category='success')
+            flash("Отсоси, мамкин хакер. Хуй тебе, а не режим Бога", category='error')
             return redirect(url_for('views.home'))
-    return render_template('godmode.html')
+    return render_template('godmode.html', user=current_user)
 
 
 @usermanager.route('/user/<int:id>/profile')
