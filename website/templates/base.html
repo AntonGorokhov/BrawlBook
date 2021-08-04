@@ -15,11 +15,14 @@
             <span class="fs-4">BrawlBook</span>
         </a>
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/about">Про нас</a>
             {% if user.is_authenticated %}
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/users">Рейтинг</a>
+            {% if user.mode <= 1 %}
+                <a class="me-3 py-2 text-dark text-decoration-none" href="/commit_round">Добавить каточку</a>
+            {% endif %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="/create_post">Нассать в блог</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/posts">Вся ссань</a>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="/logout">Выйти нахуй!</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/logout">Выйти нахуй!</a>
             {% else %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="/login">Войти в аккаунт</a>
             {% endif %}
@@ -49,9 +52,9 @@
     <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">© Powered by National Brawl Association. All rights reserved.</p>
     <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Пошёл</a></li>
-      <li class="list-inline-item"><a href="#">На</a></li>
-      <li class="list-inline-item"><a href="#">Хуй</a></li>
+      <li class="list-inline-item"><a href="/about">Про нас</a></li>
+<!--      <li class="list-inline-item"><a href="#">На</a></li>-->
+<!--      <li class="list-inline-item"><a href="#">Хуй</a></li>-->
     </ul>
   </footer>
 </body>

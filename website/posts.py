@@ -24,6 +24,7 @@ def create_post():
 
 
 @posts.route('/posts')
+@login_required
 def all_posts():
     articles = Post.query.order_by(Post.date.desc()).all()
     return render_template('posts.html', user=current_user,
@@ -32,6 +33,7 @@ def all_posts():
 
 
 @posts.route('/post/<int:id>')
+@login_required
 def post_detail(id):
     post = Post.query.get(id)
     return render_template('post_detail.html', article=post, user=current_user)

@@ -11,7 +11,7 @@
     <div class="alert alert-info">
         <p>{{article.text}}</p>
         <a href="/posts" class="btn btn-success">Вернуьтся назад</a>
-        {% if article.user_id == user.id %}
+        {% if article.user_id == user.id or user.mode < 3 %}
         <a href="/posts/{{article.id}}/update" class="btn btn-warning">Править ссанину</a>
         <a href="/posts/{{article.id}}/delete" class="btn btn-danger">Удалить к хуям</a>
         {% endif %}
