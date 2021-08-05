@@ -10,12 +10,19 @@
     <h1>Я смотрю ты далеко зашел) Ну давай перехуярим тут всю инфу :)</h1>
     <form method="post">
         <input type="string" name="name" id="name" class="form-control" value="{{usr.name}}"><br>
-        <input type="number" name="rating" id="rating" class="form-control" value="{{usr.rating}}"><br>
         {% if user.mode == 0 or user.mode < usr.mode %}
+        <input type="number" name="rating" id="rating" class="form-control" value="{{usr.rating}}"><br>
         <input type="number" name="mode" id="mode" class="form-control" value="{{usr.mode}}"><br>
         {% endif %}
         <input type="submit" class="btn btn-warning" value="Внести изменения!">
         <input type="reset" class="btn btn-success" value="Отменить!"><br>
+        <br>
+        <a href="/users" class="btn btn-success">Вернуться назад</a>
+        <br>
+        <br>
+        {% if user.mode < usr.mode and user.mode <= 1 %}
+        <a href="/user/{{usr.id}}/delete" class="btn btn-danger">Удалить его нахуй!</a>
+        {% endif %}
     </form>
 </div>
 {% endblock %}

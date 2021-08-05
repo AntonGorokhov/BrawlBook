@@ -7,51 +7,55 @@
 
 {% block body %}
 
-<h1>Пользователи сайта</h1>
+<div class="container mt-5">
 
-<table class>
-    <tbody>
-    <tr>
-    <th style="width:2em;" class="top">&nbsp;</th>
-    <th style="text-align:left;" class="top">  Имя  </th>
-<!--    <th style="width:2em;" class="top"><span title="Количество участий в каточках">№</span></th>-->
-    <th style="width:2em;" class="top">  Рейтинг  </th>
-         {% if user.mode <= 1 %}
-        <th style="width:2em;" class="top">  Доступ  </th>
-        <th style="width:2em;" class="top">  id  </th>
+    <h1>Пользователи сайта</h1>
 
-        {% endif %}
-    </tr>
 
-    {% for i in range(0, sz) %}
+    <table class="table table-striped table-bordered">
+        <tbody>
         <tr>
-        <td class="dark">
-            {{i + 1}}
-        </td>
-        <td class="dark">
-            {{all_users[i].name}}
-            {% if user.id == all_users[i].id %}
-            (Вы)
+        <th style="width:2em;" class="top">&nbsp;</th>
+        <th style="text-align:left;" class="top">  Имя  </th>
+    <!--    <th style="width:2em;" class="top"><span title="Количество участий в каточках">№</span></th>-->
+        <th style="width:2em;" class="top">  Рейтинг  </th>
+             {% if user.mode < 3 %}
+            <th style="width:2em;" class="top">  Доступ  </th>
+            <th style="width:2em;" class="top">  id  </th>
+
             {% endif %}
-        </td>
-        <td class="dark">
-            {{ all_users[i].rating }}
-        </td>
-            {% if user.mode <= 1 %}
+        </tr>
+
+        {% for i in range(0, sz) %}
+        <tr>
             <td class="dark">
-                {% if all_users[i].mode == 0 %}
-                1
-                {% else %}
-                {{all_users[i].mode}}
+                {{i + 1}}
+            </td>
+            <td class="dark">
+                <a href="/user/{{all_users[i].id}}/profile">
+                    {{all_users[i].name}}
+                    {% if user.id == all_users[i].id %}
+                    (Вы)
+                    {% endif %}
+                </a>
+            </td>
+            <td class="dark">
+                {{ all_users[i].rating }}
+            </td>
+                {% if user.mode < 3 %}
+                <td class="dark">
+                    {{xmode[all_users[i].mode]}}
+                </td>
+                <td class="dark">
+                    {{all_users[i].id}}
+                </td>
                 {% endif %}
-            </td>
-            <td class="dark">
-                {{all_users[i].id}}
-            </td>
-            {% endif %}
-    {% endfor %}
-</tr>
-    </tbody>
-</table>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
 
 {% endblock %}

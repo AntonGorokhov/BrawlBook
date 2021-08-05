@@ -20,9 +20,12 @@
             {% if user.mode <= 1 %}
                 <a class="me-3 py-2 text-dark text-decoration-none" href="/commit_round">Добавить каточку</a>
             {% endif %}
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/create_post">Нассать в блог</a>
+            {% if user.mode <= 2 %}
+                <a class="me-3 py-2 text-dark text-decoration-none" href="/create_post">Нассать в блог</a>
+            {% endif %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="/posts">Вся ссань</a>
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/logout">Выйти нахуй!</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/user/{{user.id}}/profile"> Профиль</a>
+            <a class="me-3 py-2 text-dark text-decoration-none "href="/logout">Выйти нахуй!</a>
             {% else %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="/login">Войти в аккаунт</a>
             {% endif %}

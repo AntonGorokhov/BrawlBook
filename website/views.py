@@ -5,6 +5,8 @@ from .models import User, Post
 
 views = Blueprint('views', __name__)
 
+xmode = ['Админ++', 'Админ', 'Модератор', 'Простой смертный']
+
 
 @views.route("/")
 def home():

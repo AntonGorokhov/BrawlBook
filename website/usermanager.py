@@ -1,17 +1,20 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User, Post
+from .models import User, Post, Rating_history
 from flask_login import login_user, logout_user, login_required, current_user
 
 usermanager = Blueprint('usermanager', __name__)
+
+
+xmode = ['Админ++', 'Админ', 'Модератор', 'Простой смертный']
 
 
 @usermanager.route('/users')
 @login_required
 def show_all_users():
     all_users = User.query.order_by(User.rating.desc()).all()
-    return render_template('all_users.html', all_users=all_users, user=current_user, sz=len(all_users))
+    return render_template('all_users.html', all_users=all_users, user=current_user, sz=len(all_users), xmode=xmode)
 
 
 @usermanager.route('/godmode', methods=['GET', 'POST'])
@@ -37,7 +40,10 @@ def godmode():
 @usermanager.route('/user/<int:id>/profile')
 @login_required
 def user_detail(id):
-    return render_template('profile.html', user=current_user, profile=User.query.get(id))
+    return render_template('profile.html', user=current_user,
+                           profile=User.query.get(id),
+                           rating_history = User.query.get(id).rating_history,
+                           xmode=xmode)
 
 
 @usermanager.route('/user/<int:id>/update', methods=['POST', 'GET'])
@@ -48,9 +54,10 @@ def user_update(id):
     if request.method == 'POST':
         user = User.query.get(id)
         name = request.form['name']
-        rating = int(request.form['rating'])
+        rating = user.rating
         mode = int(user.mode)
         if current_user.mode <= mode:
+            rating = float(request.form['rating'])
             mode = int(request.form['mode'])
         if name != user.name and User.query.filter_by(name=name).first():
             flash('Такое Имя уже существует! Надо как-то покреативничать!', category='error')
@@ -66,6 +73,25 @@ def user_update(id):
             user.name = name
             user.rating = rating
             user.mode = mode
+            rating_history = Rating_history(value=rating, user_id=user.id)
+            db.session.add(rating_history)
             db.session.commit()
+            return redirect('/users')
 
     return render_template('user_update.html', user=current_user, usr=User.query.get(id))
+
+
+@usermanager.route('/user/<int:id>/delete', methods=['POST', 'GET'])
+@login_required
+def user_delete(id):
+    if current_user.mode > 1:
+        return redirect('/')
+    user = User.query.get(id)
+    if user.mode <= current_user.mode:
+        flash("У тебя еще удалялка не отросла таких людей удалять!", category='error')
+        return redirect('/')
+    else:
+        db.session.delete(user)
+        db.commit()
+        flash("Ну все. Был пацан, и нет пацана! Помянем!", category='success')
+        return redirect('/')

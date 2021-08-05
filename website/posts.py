@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User, Post
+from .models import User, Post, Rating_history
 from flask_login import login_user, logout_user, login_required, current_user
 
 posts = Blueprint('posts', __name__)

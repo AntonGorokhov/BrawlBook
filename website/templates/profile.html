@@ -4,13 +4,46 @@
 Твой сраный профиль
 {% endblock %}
 
-
 {% block body %}
 <div class="container mt-5">
     <h1>{{profile.name}}</h1>
-    <h1>Рейтинг : {{profile.rating}}</h1>
-    <div>
-        <a href="/users" class="btn btn-success">Вернуьтся назад</a>
-    </div>
+    <h2>Рейтинг: {{profile.rating}}</h2>
+
+    {% if user.mode < 3 %}
+    <h2>Уровень доступа: {{xmode[profile.mode]}}</h2>
+    {% endif %}
+
+    <h4>История Рейтинга</h4>
+
+    <table class="table table-striped table-bordered">
+    <tbody>
+
+
+    <tr>
+    <th style="text-align:left;" class="top">  Дата  </th>
+    <th style="width:2em;" class="top">  Рейтинг  </th>
+    </tr>
+
+    {% for el in rating_history %}
+    <tr>
+        <td class="dark">
+            {{ el.date.date() }}
+        </td>
+        <td class="dark">
+            {{ el.value }}
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+    <a href="/users" class="btn btn-success">Вернуться назад</a>
+
+    {% if user.mode <= profile.mode and user.mode <= 1 %}
+    <a href="/user/{{profile.id}}/update" class="btn btn-warning">Изменить информацию о пользователе</a>
+    {% endif %}
+
 </div>
 {% endblock %}
