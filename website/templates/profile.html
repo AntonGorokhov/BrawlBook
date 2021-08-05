@@ -7,7 +7,7 @@
 {% block body %}
 <div class="container mt-5">
     <h1>{{profile.name}}</h1>
-    <h2>Рейтинг: {{profile.rating}}</h2>
+    <h2>Рейтинг: {{profile.rating|round(1)}}</h2>
 
     {% if user.mode < 3 %}
     <h2>Уровень доступа: {{xmode[profile.mode]}}</h2>
@@ -30,7 +30,7 @@
             {{ el.date.date() }}
         </td>
         <td class="dark">
-            {{ el.value }}
+            {{ el.value|round(1) }}
         </td>
     </tr>
     {% endfor %}
@@ -41,7 +41,8 @@
 
     <a href="/users" class="btn btn-success">Вернуться назад</a>
 
-    {% if user.mode <= profile.mode and user.mode <= 1 %}
+    {% if user.mode <= profile.mode and user.mode <= 1
+    %}
     <a href="/user/{{profile.id}}/update" class="btn btn-warning">Изменить информацию о пользователе</a>
     {% endif %}
 

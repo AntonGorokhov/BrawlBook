@@ -22,11 +22,13 @@ def create_app():
     from .auth import auth
     from .posts import posts
     from .usermanager import usermanager
+    from .roundmanager import roundmanager
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(posts, url_prefix='/')
     app.register_blueprint(usermanager, url_prefix='/')
+    app.register_blueprint(roundmanager, url_prefix='/')
 
     from .models import User
 

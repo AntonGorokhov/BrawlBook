@@ -20,6 +20,23 @@ class User(db.Model, UserMixin):
     rating_history = db.relationship('Rating_history')
     posts = db.relationship('Post')
     mode = db.Column(db.Integer, default=3)
+    k = db.Column(db.Float, default=40.0)
+    numrounds = db.Column(db.Integer, default=0)
+
+    def commit_rating_change(self, Dr):
+        self.rating += Dr * self.k
+        new_rating_history = Rating_history(value=self.rating, user_id=self.id)
+        db.session.add(new_rating_history)
+        if self.numrounds < 10:
+            self.k = 40.0
+        else:
+            if self.rating >= 2000.0:
+                self.k = 10.0
+            else:
+                self.k = 20.0
+        self.numrounds += 1
+        db.session.commit()
+        return
 
 
 class Post(db.Model):

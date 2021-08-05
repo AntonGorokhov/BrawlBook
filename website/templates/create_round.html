@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Создайте свой пост
+{% endblock %}
+
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Привет, Администратор! Введи тут все данные о катке </h1>
+
+    <form method="post">
+        <table class="table table-striped table-bordered">
+        <tbody>
+        <tr>
+        <td class="dark">
+                Команда 1:
+        </td>
+            <td class="dark">
+                <input type="name" name="p11" id="p11" class="form-control" placeholder="Игрок 1">
+            </td>
+            <td class="dark">
+                <input type="name" name="p12" id="p12" class="form-control" placeholder="Игрок 2">
+            </td>
+        </tr>
+
+        <td class="dark">
+                Команда 2:
+        </td>
+            <td class="dark">
+                <input type="name" name="p21" id="p21" class="form-control" placeholder="Игрок 1">
+            </td>
+            <td class="dark">
+                <input type="name" name="p22" id="p22" class="form-control" placeholder="Игрок 2">
+            </td>
+        </tr>
+
+        </tbody>
+        </table>
+        <input type="number" name="win" id="win" class="form-control" min="1" max = "2" placeholder="Кто победил? (1 или 2)"><br>
+        <input type="submit" class="btn btn-success" value="Нассать!"><br>
+        <br>
+        <a href="/" class="btn btn-warning">Вернуться на главную</a><br>
+    </form>
+
+</div>
+{% endblock %}

@@ -17,8 +17,8 @@
         <tr>
         <th style="width:2em;" class="top">&nbsp;</th>
         <th style="text-align:left;" class="top">  Имя  </th>
-    <!--    <th style="width:2em;" class="top"><span title="Количество участий в каточках">№</span></th>-->
         <th style="width:2em;" class="top">  Рейтинг  </th>
+            <th style="width:2em;" class="top"><span title="Количество участий в каточках">Количество игр</span></th>
              {% if user.mode < 3 %}
             <th style="width:2em;" class="top">  Доступ  </th>
             <th style="width:2em;" class="top">  id  </th>
@@ -39,8 +39,12 @@
                     {% endif %}
                 </a>
             </td>
+
             <td class="dark">
-                {{ all_users[i].rating }}
+                {{ all_users[i].rating|round(1) }}
+            </td>
+            <td class="dark">
+                {{all_users[i].numrounds}}
             </td>
                 {% if user.mode < 3 %}
                 <td class="dark">
