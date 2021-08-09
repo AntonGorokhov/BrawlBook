@@ -23,9 +23,9 @@ class User(db.Model, UserMixin):
     k = db.Column(db.Float, default=40.0)
     numrounds = db.Column(db.Integer, default=0)
 
-    def commit_rating_change(self, Dr):
+    def commit_rating_change(self, Dr, round_id):
         self.rating += Dr * self.k
-        new_rating_history = Rating_history(value=self.rating, user_id=self.id)
+        new_rating_history = Rating_history(value=self.rating, user_id=self.id, round_id=round_id)
         db.session.add(new_rating_history)
         if self.numrounds < 10:
             self.k = 40.0
@@ -53,3 +53,14 @@ class Rating_history(db.Model):
     value = db.Column(db.Float)
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    round_id = db.Column(db.Integer, default=-1)
+
+
+class Round(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    p11 = db.Column(db.Integer)
+    p12 = db.Column(db.Integer)
+    p21 = db.Column(db.Integer)
+    p22 = db.Column(db.Integer)
+    win = db.Column(db.Integer, default=0)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)

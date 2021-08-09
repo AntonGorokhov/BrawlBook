@@ -28,7 +28,7 @@ def signup():
             user = User(name=name, password=generate_password_hash(password))
             db.session.add(user)
             db.session.commit()
-            rating_history = Rating_history(value=user.rating, user_id=user.id)
+            rating_history = Rating_history(value=user.rating, user_id=user.id, round_id=-1)
             db.session.add(rating_history)
             db.session.commit()
             flash('Ура! Ссаный аккаунт создан! Твой текущий ректинг: 1400. Это стандартный рейтинг новичка', category='success')

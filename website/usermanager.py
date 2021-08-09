@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import User, Post, Rating_history
+from .models import User, Post, Rating_history, Round
 from flask_login import login_user, logout_user, login_required, current_user
 
 usermanager = Blueprint('usermanager', __name__)
@@ -40,10 +40,13 @@ def godmode():
 @usermanager.route('/user/<int:id>/profile')
 @login_required
 def user_detail(id):
+    round_history = []
+    for i in User.query.get(id).rating_history:
+        round_history.append(Round.query.get(i.round_id))
     return render_template('profile.html', user=current_user,
                            profile=User.query.get(id),
-                           rating_history = User.query.get(id).rating_history,
-                           xmode=xmode)
+                           rating_history=User.query.get(id).rating_history,
+                           xmode=xmode, round_history=round_history, sz=len(round_history))
 
 
 @usermanager.route('/user/<int:id>/update', methods=['POST', 'GET'])

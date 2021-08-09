@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import db
-from .models import User, Post
+from .models import User, Post, Round
 
 views = Blueprint('views', __name__)
 

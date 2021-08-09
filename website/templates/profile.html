@@ -20,17 +20,23 @@
 
 
     <tr>
-    <th style="text-align:left;" class="top">  Дата  </th>
+    <th style="text-align:left;" class="top">  Дата каточки  </th>
     <th style="width:2em;" class="top">  Рейтинг  </th>
     </tr>
 
-    {% for el in rating_history %}
+    {% for i in range(0, sz) %}
     <tr>
+        {% if round_history[i] == None %}
         <td class="dark">
-            {{ el.date.date() }}
+            {{ rating_history[i].date.date() }}
         </td>
+        {% else %}
         <td class="dark">
-            {{ el.value|round(1) }}
+            <a href="/rounds/{{ round_history[i].id }}">{{ rating_history[i].date.date() }}</a>
+        </td>
+        {% endif %}
+        <td class="dark">
+            {{ rating_history[i].value|round(1) }}
         </td>
     </tr>
     {% endfor %}
