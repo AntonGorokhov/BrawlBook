@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Твой сраный профиль
 {% endblock %}
 
 {% block body %}
+
+
+
 <div class="container mt-5">
+
     <h1>{{profile.name}}</h1>
     <h2>Рейтинг: {{profile.rating|round(1)}}</h2>
+
 
     {% if user.mode < 3 %}
     <h2>Уровень доступа: {{xmode[profile.mode]}}</h2>
     {% endif %}
+
+    <img src="{{urlik}}" alt="Chart" height="auto" width="auto">
 
     <h4>История Рейтинга</h4>
 
@@ -53,4 +59,5 @@
     {% endif %}
 
 </div>
+
 {% endblock %}

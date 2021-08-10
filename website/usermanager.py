@@ -3,6 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, Post, Rating_history, Round
 from flask_login import login_user, logout_user, login_required, current_user
+import matplotlib.pyplot as plt
+import os
+from datetime import datetime, timedelta
 
 usermanager = Blueprint('usermanager', __name__)
 
@@ -37,16 +40,75 @@ def godmode():
     return render_template('godmode.html', user=current_user)
 
 
+@usermanager.route('/plot')
+def plot():
+    x = [1, 2, 3, 4, 5]
+    # heights of bars
+    y = [10, 24, 36, 40, 5]
+    # labels for bars
+    tick_label = ['one', 'two', 'three', 'four', 'five']
+    # plotting a bar chart
+    plt.plot(x, y)
+
+    # naming the y-axis
+    plt.ylabel('Рейтинг')
+    # naming the x-axis
+    plt.xlabel('Время')
+    # plot title
+    plt.title('Изменение ебучего рейтинга')
+
+    file = open('website/static/images/plot.png', 'wb')
+    file.truncate(0)
+
+    plt.savefig(file)
+
+    file.close()
+    # plt.show()
+
+    return render_template('plot.html', url='/static/images/plot.png', user=current_user)
+
+
 @usermanager.route('/user/<int:id>/profile')
 @login_required
 def user_detail(id):
     round_history = []
     for i in User.query.get(id).rating_history:
         round_history.append(Round.query.get(i.round_id))
-    return render_template('profile.html', user=current_user,
+
+    x = []
+    y = []
+    for i in User.query.get(id).rating_history:
+        x.append(i.date + timedelta(minutes=180))
+        y.append(i.value)
+
+    # labels for bars
+    # plotting a bar chart
+    plt.plot(x, y, 'bo', linestyle='dashed')
+
+    # plt.xticks(x[::5])
+    plt.ylabel('Рейтинг')
+    plt.xlabel('Время')
+    plt.title('Изменение ебучего рейтинга')
+
+
+    # os.remove('website/static/images/plot%s.png' % str(id))
+    file = open('website/static/images/plot%s.png' % str(id), 'w').close()
+    file = open('website/static/images/plot%s.png' % str(id), 'wb')
+
+    plt.savefig(file)
+
+    file.seek(0)
+
+    file.close()
+
+    plt.close()
+
+    return render_template('profile.html', urlik='/static/images/plot%s.png' % str(id),
+                           user=current_user,
                            profile=User.query.get(id),
                            rating_history=User.query.get(id).rating_history,
-                           xmode=xmode, round_history=round_history, sz=len(round_history))
+                           xmode=xmode, round_history=round_history, sz=len(round_history),
+                           )
 
 
 @usermanager.route('/user/<int:id>/update', methods=['POST', 'GET'])
