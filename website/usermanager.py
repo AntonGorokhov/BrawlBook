@@ -63,7 +63,6 @@ def plot():
     plt.savefig(file)
 
     file.close()
-    # plt.show()
 
     return render_template('plot.html', url='/static/images/plot.png', user=current_user)
 
@@ -78,14 +77,18 @@ def user_detail(id):
     x = []
     y = []
     for i in User.query.get(id).rating_history:
-        x.append(i.date + timedelta(minutes=180))
+        # x.append(i.date + timedelta(minutes=180))
+        x.append(i.date)
         y.append(i.value)
 
     # labels for bars
     # plotting a bar chart
-    plt.plot(x, y, 'bo', linestyle='dashed')
+    plt.plot(x, y, 'go', linestyle='dashed')
 
-    # plt.xticks(x[::5])
+    if len(x) > 1:
+        plt.xticks(x[::len(x) - 1])
+    else:
+        plt.xticks(x[::1])
     plt.ylabel('Рейтинг')
     plt.xlabel('Время')
     plt.title('Изменение ебучего рейтинга')

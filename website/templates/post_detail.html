@@ -8,7 +8,7 @@
 {% block body %}
 <div class="container mt-5">
     <h1>{{article.title}}</h1>
-    <div class="alert alert-info">
+    <div class="alert alert-info" style="word-break: break-all"; height="auto">
         <p>{{article.text}}</p>
         <a href="/posts" class="btn btn-success">Вернуьтся назад</a>
         {% if article.user_id == user.id or user.mode < 3 %}

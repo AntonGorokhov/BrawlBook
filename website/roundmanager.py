@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from .models import User, Post, Rating_history, Round
 from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime, timedelta
 
 
 roundmanager = Blueprint('roundmanager', __name__)
@@ -34,6 +35,8 @@ def add_round():
             else:
                 win = float(request.form['win'])
                 round = Round(p11=user11.id, p12=user12.id, p21=user21.id, p22=user22.id, win=win)
+                if win == 2.0:
+                    win = 0.0
                 db.session.add(round)
                 db.session.commit()
                 Ra = (user11.rating * user12.rating) ** (0.5)

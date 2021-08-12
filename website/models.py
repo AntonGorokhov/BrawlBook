@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String, nullable=False)
-    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     rating = db.Column(db.Float, default=1400.0)
     rating_history = db.relationship('Rating_history')
     posts = db.relationship('Post')
@@ -43,7 +43,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     text = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     author_name = db.Column(db.String(20), nullable=False)
 
@@ -51,7 +51,7 @@ class Post(db.Model):
 class Rating_history(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Float)
-    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     round_id = db.Column(db.Integer, default=-1)
 
@@ -63,4 +63,4 @@ class Round(db.Model):
     p21 = db.Column(db.Integer)
     p22 = db.Column(db.Integer)
     win = db.Column(db.Integer, default=0)
-    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
