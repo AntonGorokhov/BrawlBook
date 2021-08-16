@@ -17,6 +17,7 @@ def home():
 def about():
     return render_template("about.html", user=current_user)
 
+
 @views.route("/terms")
 def terms():
     return render_template("terms.html", user=current_user)
