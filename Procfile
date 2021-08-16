@@ -1,1 +1,1 @@
-web: gunicorn app:apppip3 install git+https://github.com/benoitc/gunicorn.git
+web: gunicorn app:app
