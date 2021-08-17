@@ -162,4 +162,5 @@ def user_delete(id):
         db.session.delete(user)
         db.commit()
         flash("Ну все. Был пацан, и нет пацана! Помянем!", category='success')
+
         return redirect('/')
