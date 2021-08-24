@@ -32,11 +32,11 @@
                 <a class="me-3 py-2 text-dark text-decoration-none" href="/commit_round">Добавить каточку</a>
             {% endif %}
             {% if user.mode <= 2 %}
-                <a class="me-3 py-2 text-dark text-decoration-none" href="/create_post">Нассать в блог</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="/create_post">Написать в блог</a>
             {% endif %}
-            <a class="me-3 py-2 text-dark text-decoration-none" href="/posts">Вся ссань</a>
+            <a class="me-3 py-2 text-dark text-decoration-none" href="/posts">Записи блога</a>
             <a class="me-3 py-2 text-dark text-decoration-none" href="/user/{{user.id}}/profile"> Профиль</a>
-            <a class="me-3 py-2 text-dark text-decoration-none "href="/logout">Выйти нахуй!</a>
+            <a class="me-3 py-2 text-dark text-decoration-none "href="/logout">Выйти!</a>
             {% else %}
             <a class="me-3 py-2 text-dark text-decoration-none" href="/login">Войти в аккаунт</a>
             {% endif %}
@@ -64,7 +64,7 @@
     {% block body %}{% endblock %}
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">© Powered by National Brawl Association. All rights reserved.</p>
+    <p class="mb-1">© Powered by National Brl Association. All rights reserved.</p>
     <ul class="list-inline">
       <li class="list-inline-item"><a href="/about">Про нас</a></li>
       <li class="list-inline-item"><a href="/terms">Пользовательское соглашение</a></li>

@@ -7,7 +7,7 @@
 
 {% block body %}
 <div class="container mt-5">
-    <h1>Посты в BrawlBook</h1>
+    <h1>Посты в BrlBook</h1>
 
     {% if sz == 0 %}
         <div class="alert alert-info">
@@ -18,8 +18,8 @@
     {% for el in articles %}
     <div class="alert alert-info">
         <h2>{{el.title}}</h2>
-        <p><b>Автор ссанья: {{el.author_name}}</b></p>
-        <p><b>Дата ссанья: {{el.date.date()}}</b></p>
+        <p><b>Автор статьи: {{el.author_name}}</b></p>
+        <p><b>Дата статьи: {{el.date.date()}}</b></p>
         <a href="/post/{{el.id}}" class="btn btn-warning">Посмотреть полностью</a>
     </div>
     {% endfor %}

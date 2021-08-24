@@ -27,15 +27,15 @@ def godmode():
         godmode_activation_code = request.form['godmode_activation_code']
         if check_password_hash(generate_password_hash('123'), godmode_activation_code):
             if User.query.filter_by(mode=0).first():
-                flash("Отсоси, мамкин хакер. Хуй тебе, а не режим Бога", category='error')
+                flash("Не получилось войти в режим бога", category='error')
             else:
                 user = User.query.get(current_user.id)
                 user.mode = 0
                 db.session.commit()
-                flash("Вы включили режим Бога! Обоссытесь от счастья!", category='success')
+                flash("Вы включили режим Бога!", category='success')
                 return redirect(url_for('views.home'))
         else:
-            flash("Отсоси, мамкин хакер. Хуй тебе, а не режим Бога", category='error')
+            flash("Не получилось войти в режим бога", category='error')
             return redirect(url_for('views.home'))
     return render_template('godmode.html', user=current_user)
 
@@ -55,7 +55,7 @@ def plot():
     # naming the x-axis
     plt.xlabel('Время')
     # plot title
-    plt.title('Изменение ебучего рейтинга')
+    plt.title('Изменение рейтинга')
 
     file = open('website/static/images/plot.png', 'wb')
     file.truncate(0)
@@ -91,7 +91,7 @@ def user_detail(id):
         plt.xticks(x[::1])
     plt.ylabel('Рейтинг')
     plt.xlabel('Время')
-    plt.title('Изменение ебучего рейтинга')
+    plt.title('Изменение рейтинга')
 
 
     # os.remove('website/static/images/plot%s.png' % str(id))
@@ -130,13 +130,13 @@ def user_update(id):
         if name != user.name and User.query.filter_by(name=name).first():
             flash('Такое Имя уже существует! Надо как-то покреативничать!', category='error')
         elif rating < 0 or rating > 10000:
-            flash('Ты что ебнулся? Ты нормальный рейтинг-то выбери, а?', category='error')
+            flash('Ты нормальный рейтинг-то выбери, а?', category='error')
         elif user.id != current_user.id and mode <= current_user.mode:
-            flash('Ты не можешь выдать уровень доступа пизже или равный твоему', category='error')
+            flash('Ты не можешь выдать уровень доступа лучше или равный твоему', category='error')
         elif mode > 3:
             flash('Ты не можешь сделать уровень юзера меньше 3. Самые бомжи имеют доступ 3', category='error')
         elif user.id == current_user.id and mode > current_user.mode:
-            flash('Ты с дуба рухнул? Нахуй тебе свой же уровень доступа ухудшать?!', category='error')
+            flash('Ты с дуба рухнул? Зачем тебе свой же уровень доступа ухудшать?!', category='error')
         else:
             user.name = name
             user.rating = rating

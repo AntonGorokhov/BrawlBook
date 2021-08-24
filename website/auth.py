@@ -17,13 +17,13 @@ def signup():
         password = request.form['password']
         password2 = request.form['password2']
         if len(name) < 5:
-            flash('Ты в край ебнулся? В ссаном имени должно быть не менее 5 символов!', category='error')
+            flash('В ссаном имени должно быть не менее 5 символов!', category='error')
         elif len(password) < 5:
-            flash('Ты в край ебнулся? В ссаном пароле должно быть не менее 5 символов!', category='error')
+            flash('В ссаном пароле должно быть не менее 5 символов!', category='error')
         elif User.query.filter_by(name=name).first():
-            flash('Ты в край ебнулся? Такой аккаунт уже есть!', category='error')
+            flash('Такой аккаунт уже есть!', category='error')
         elif password2 != password:
-            flash('Ты в край ебнулся? Пароли должны совпадать!', category='error')
+            flash('Пароли должны совпадать!', category='error')
         else:
             user = User(name=name, password=generate_password_hash(password))
             db.session.add(user)
@@ -31,7 +31,7 @@ def signup():
             rating_history = Rating_history(value=user.rating, user_id=user.id, round_id=-1)
             db.session.add(rating_history)
             db.session.commit()
-            flash('Ура! Ссаный аккаунт создан! Твой текущий ректинг: 1400. Это стандартный рейтинг новичка', category='success')
+            flash('Ура! Аккаунт создан! Твой текущий ректинг: 1400. Это стандартный рейтинг новичка', category='success')
             login_user(user, remember=True)
             return redirect(url_for('views.home'))
 
@@ -50,9 +50,9 @@ def login():
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash("Ебучй ты даун! Неправильно введен пароль", category='error')
+                flash("Неправильно введен пароль", category='error')
         else:
-            flash("Ебучй ты даун! Такого имени даже нет! Иди нахуй!", category='error')
+            flash("Такого имени даже нет!", category='error')
     return render_template("login.html", user=current_user)
 
 

@@ -24,14 +24,14 @@ def add_round():
         p21 = request.form['p21']
         p22 = request.form['p22']
         if p11 == p12 or p11 == p21 or p11 == p22 or p12 == p21 or p12 == p22 or p21 == p22:
-            flash("Конченый ты мудозвон! Имена не могут совпадать!", category='error')
+            flash("Имена не могут совпадать!", category='error')
         else:
             user11 = User.query.filter_by(name=p11).first()
             user12 = User.query.filter_by(name=p12).first()
             user21 = User.query.filter_by(name=p21).first()
             user22 = User.query.filter_by(name=p22).first()
             if not user11 or not user22 or not user21 or not user22:
-                flash("Блять, ты еблан! Какого-то аккаунта из указанных нет!", category='error')
+                flash("Какого-то аккаунта из указанных нет!", category='error')
             else:
                 win = float(request.form['win'])
                 round = Round(p11=user11.id, p12=user12.id, p21=user21.id, p22=user22.id, win=win)

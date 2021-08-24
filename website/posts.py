@@ -16,12 +16,12 @@ def create_post():
         title = request.form['title']
         text = request.form['text']
         if len(title) == 0 or len(text) == 0:
-            flash('Ебучий ты даун! Надо что-то написать, чтобы это отправилось!', category='error')
+            flash('Надо что-то написать, чтобы это отправилось!', category='error')
         else:
             post = Post(title=title, text=text, user_id=current_user.id, author_name=current_user.name)
             db.session.add(post)
             db.session.commit()
-            flash('Молодец, нассал! Теперь все увидят, как ты обоссался!', category='success')
+            flash('Статья была успешно создана', category='success')
             return redirect(url_for('posts.all_posts'))
     return render_template('create_post.html', user=current_user)
 
@@ -51,7 +51,7 @@ def post_update(id):
         title = request.form['title']
         text = request.form['text']
         if len(title) == 0 or len(text) == 0:
-            flash('Ебучий ты даун! Надо что-то написать, чтобы это отправилось!', category='error')
+            flash('Надо что-то написать, чтобы это отправилось!', category='error')
         else:
             post = Post.query.get(id)
             post.title = title
